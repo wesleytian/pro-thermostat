@@ -1,8 +1,8 @@
 # wesley-remote
-wesley's outlet thermostat
-- wifi based, remote sensing, programmable
-part of the wesley remote project
-this is the firmware that will be uploaded onto the thermostat controller itself
+<p wesley's outlet thermostat</p>
+<p>wifi based, remote sensing and programmable</p>
+<p>part of the wesley remote project</p>
+<p>this is the firmware that will be uploaded onto the thermostat controller itself</p>
 
 <h2>features:</h2>
 <p><h3> 1. wi-fi based </h3> </p>
