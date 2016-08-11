@@ -5,7 +5,7 @@
 #include <RCSwitch.h>
 #include <SimpleTimer.h>
 
- // This part is for Ethernet stuff
+ // This part is for Ethernet stuff.
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
@@ -61,7 +61,7 @@ float hif;
 // a function to be executed periodically
 void repeatMe() {
   float highTemp = tempSetting + 0.5;
-  float lowTemp = tempSetting - 0.5;
+  float lowTemp = tempSetting - 1;
 
   h = dht.readHumidity();
   t = dht.readTemperature();
