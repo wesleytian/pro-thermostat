@@ -89,14 +89,13 @@ if (isnan(h) || isnan(t) || isnan(f)) {
   // }
 
   // scroll = (scroll+1)%3;
-
+//blah
   // Check if any reads failed and exit early (to try again).
   
   float hif = dht.computeHeatIndex(f, h); // Compute heat index in Fahrenheit (the default)
   float hic = dht.computeHeatIndex(t, h, false); // Compute heat index in Celsius (isFahreheit = false)
 
   display.clear();
-
   display.setTextAlignment(TEXT_ALIGN_LEFT);
   display.drawString(0,0,String(h) + " %");
   // // Serial.println("Humidity: " + String(h) + " %");
