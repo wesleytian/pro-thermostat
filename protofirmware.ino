@@ -89,7 +89,7 @@ if (isnan(h) || isnan(t) || isnan(f)) {
   // }
 
   // scroll = (scroll+1)%3;
-//blah23  3SSaoeuaoeu
+//blah23  3SSaoeuaoeuaoeu
   // Check if any reads failed and exit early (to try again).
   
   float hif = dht.computeHeatIndex(f, h); // Compute heat index in Fahrenheit (the default)
