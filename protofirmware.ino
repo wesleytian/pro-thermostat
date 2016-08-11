@@ -151,8 +151,7 @@ void repeatMe() {
     delay(2000);
     last = millis();
     state = true;
-    Serial.println("ON");
-  }
+    Serial.println("ON"); 
 
   else if ((state == true) && (f < lowTemp)) {
     currentSignal = offSignal;
