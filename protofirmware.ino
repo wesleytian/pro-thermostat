@@ -34,9 +34,7 @@ long last = -180000;
 float tempSetting = 90;
 float previousTempSetting;
 unsigned long timeSinceStart;
-float h;
-float t;
-float f;
+
 // the timer object
 SimpleTimer timer;
 
@@ -52,6 +50,14 @@ BLYNK_WRITE(V5) {
   tempSetting = param.asInt();
 }
 
+float h;
+float t;
+float f;
+float previoush;
+float previoust;
+float previousf;
+float hif;
+
 // a function to be executed periodically
 void repeatMe() {
   float highTemp = tempSetting + 0.5;
@@ -61,32 +67,69 @@ void repeatMe() {
   t = dht.readTemperature();
   f = dht.readTemperature(true);
   
-  float hif = dht.computeHeatIndex(f, h); // Compute heat index in Fahrenheit (the default)
   float hic = dht.computeHeatIndex(t, h, false); // Compute heat index in Celsius (isFahreheit = false)
 
   display.clear();
-  display.setTextAlignment(TEXT_ALIGN_LEFT);
-  if(isnan(h)) {
-    Serial.println("Failed to read humidity from DHT sensor.")
-  }
-  else {
+  if (!isnan(f) && !isnan(h)) {
+      Serial.print("[ ");
+  Serial.print(millis() / 1000);
+  Serial.print(" secs ]..... \n");
+    display.setTextAlignment(TEXT_ALIGN_LEFT);
     display.drawString(0,0,String(h) + " %");
- // Serial.println("Humidity: " + String(h) + " %");
-  }
+    previoush = h;
 
-  display.setTextAlignment(TEXT_ALIGN_LEFT);
-  if (isnan(f)) {
-    Serial.println("Failed to read temperature from DHT sensor.")
-  }
-  else {
     display.drawString(0,24,String(f) + " °F");
- // Serial.println("Temperature: " + String(t) + " °C\t" + String(f) + " °F");
+    previousf = f;
+
+    hif = dht.computeHeatIndex(f, h); // Compute heat index in Fahrenheit (the default)
+    display.drawString(0,48,String(hif) + " °F");
+  } 
+  else if (!isnan(h) && isnan(f)) {
+      Serial.print("[ ");
+  Serial.print(millis() / 1000);
+  Serial.print(" secs ].....");
+    Serial.println("Failed to read temperature from DHT sensor.");
+    display.setTextAlignment(TEXT_ALIGN_LEFT);
+
+    display.drawString(0,0,String(h) + " %");
+    previoush = h;
+
+    display.drawString(0,24,String(previousf) + " °F");
+
+    hif = dht.computeHeatIndex(previousf, h); // Compute heat index in Fahrenheit (the default)
+    display.drawString(0,48,String(hif) + " °F");
+  }
+  else if (!isnan(f) && isnan(h)) {
+      Serial.print("[ ");
+  Serial.print(millis() / 1000);
+  Serial.print(" secs ].....");
+    display.setTextAlignment(TEXT_ALIGN_LEFT);
+    Serial.println("Failed to read humidity from DHT sensor.");
+
+    display.drawString(0,0,String(previoush) + " %");
+
+    display.drawString(0,24,String(f) + " °F");
+    previousf = f;
+
+    hif = dht.computeHeatIndex(f, previoush); // Compute heat index in Fahrenheit (the default)
+    display.drawString(0,48,String(hif) + " °F");
+  }
+  else if (isnan(h) && isnan(f)) {
+      Serial.print("[ ");
+  Serial.print(millis() / 1000);
+  Serial.print(" secs ].....");
+    display.setTextAlignment(TEXT_ALIGN_LEFT);
+
+    display.drawString(0,0,String(previoush) + " %");
+
+    Serial.println("Failed to read temperature and humidity from DHT sensor.");
+    display.drawString(0,24,String(previousf) + " °F");
+
+    hif = dht.computeHeatIndex(previousf, previoush); // Compute heat index in Fahrenheit (the default)
+    display.drawString(0,48,String(hif) + " °F");
   }
 
-  display.setTextAlignment(TEXT_ALIGN_LEFT);
-  display.drawString(0,48,String(hif) + " °F");
-  // Serial.println("Heat Index: " + String(hic) + " °C\t" + String(hif) + " °F");
-
+  //Switch control.
   if ((state == false) && (millis() > last + 180000) && (f > highTemp)) {
     currentSignal = onSignal;
     mySwitch.send(currentSignal, 24);
@@ -151,7 +194,7 @@ void setup() {
   display.flipScreenVertically();
   display.setFont(Dialog_plain_16);
   digitalWrite(led, 1);
-  
+
   timer.setInterval(2000, repeatMe);
 
 }
