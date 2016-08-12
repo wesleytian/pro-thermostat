@@ -60,8 +60,9 @@ float hif;
 
 // a function to be executed periodically
 void repeatMe() {
-  float highTemp = tempSetting + 0.5;
-  float lowTemp = tempSetting - 1;
+  //Option: System Hysterisis Range
+  float highTemp = tempSetting + 2;
+  float lowTemp = tempSetting - 2;
 
   h = dht.readHumidity();
   t = dht.readTemperature();
@@ -145,6 +146,7 @@ void repeatMe() {
     Blynk.virtualWrite(V2, hif);
 
   //Switch control.
+  //Option: Use Heat Index Instead of Temperature.
   if ((state == false) && (millis() > last + 180000) && (f > highTemp)) {
     currentSignal = onSignal;
     mySwitch.send(currentSignal, 24);
@@ -203,6 +205,7 @@ void setup() {
   display.init();
   display.flipScreenVertically();
   display.setFont(Dialog_plain_16);
+  //Option: LED ON/OFF
   digitalWrite(led, 1);
 
   timer.setInterval(2000, repeatMe);
