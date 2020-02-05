@@ -1,2 +1,2 @@
 # Thermostat Pro
-<p> More information here: https://wesleytian.wordpress.com/2016/09/08/remotely-control-your-air-conditioner/ </p>
+<p> More information here: https://wesleytian.github.io/2016/ac_hack/ </p>
