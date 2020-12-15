@@ -1,2 +1,2 @@
 # Thermostat Pro
-<p> More information here: https://wesleytian.github.io/2016/ac_hack/ </p>
+<p> More information here: https://wesleytian.com/posts/ac_hack/ </p>
